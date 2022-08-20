@@ -27,6 +27,10 @@ const getExerciseLog = async (req, res) => {
   const { from, to, limit } = req.query;
 
   try {
+    const count = await exerciseModel
+      .find({ userId: req.params.id })
+      .count();
+
     const logs = await exerciseModel
       .find({
         userId: req.params.id,
@@ -42,10 +46,8 @@ const getExerciseLog = async (req, res) => {
       })
       .limit(limit);
     
-    res.status(200).json({
-      count: logs.length,
-      logs,
-    });
+    
+    res.status(200).json({ count, logs });
   } catch (err) {
     res.status(500).json(err.message);
   }
