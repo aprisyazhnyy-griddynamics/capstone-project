@@ -1,5 +1,5 @@
 run = "npm start"
-entrypoint = "index.js"
+entrypoint = "src/index.js"
 
 [packager]
 language = "nodejs"
