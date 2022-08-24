@@ -1,9 +1,9 @@
 const formatDate = (date) => {
-  const day = date.getDate().toString().padStart(2, '0');
-  const month = date.getMonth().toString().padStart(2, '0');
-  const year = date.getFullYear();
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+  const year = date.getUTCFullYear();
 
-  return `${year}-${month}-${day}`
+  return `${year}-${month}-${day}`;
 };
 
 module.exports ={
