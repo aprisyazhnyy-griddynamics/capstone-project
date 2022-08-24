@@ -8,7 +8,7 @@ const createExercise = async (req, res) => {
   const isDateValid = formatDate(new Date(req.body.date)) === req.body.date;
 
   try {
-    if (!isDateValid) throw new Error(`This date does not exist: ${req.body.date}`);
+    if (!isDateValid) res.status(400).json(`This date does not exist: ${req.body.date}`);
 
     const newExercise = new exerciseModel({
       ...req.body,
@@ -17,7 +17,7 @@ const createExercise = async (req, res) => {
     });
 
     const user = await userModel.findById(req.params.id);
-    if (!user?._id) throw new Error(`A user with id '${req.params.id}' does not exist`);
+    if (!user?._id) res.status(400).json(`A user with id '${req.params.id}' does not exist`);
 
     const savedExercise = await newExercise.save();
     
@@ -40,10 +40,10 @@ const getExerciseLog = async (req, res) => {
       .count();
     
     const isFromValid = DATE_FORMAT.test(from);
-    if (from && !isFromValid) throw new Error(`'from' URL parameter's value '${from}' is invalid. Use YYYY-MM-DD format.`);
+    if (from && !isFromValid) res.status(400).json(`'from' URL parameter's value '${from}' is invalid. Use YYYY-MM-DD format.`);
     
     const isToValid = DATE_FORMAT.test(to);
-    if (to && !isToValid) throw new Error(`'to' URL parameter's value '${to}' is invalid. Use YYYY-MM-DD format.`);
+    if (to && !isToValid) res.status(400).json(`'to' URL parameter's value '${to}' is invalid. Use YYYY-MM-DD format.`);
 
     const logs = await exerciseModel
       .find({
