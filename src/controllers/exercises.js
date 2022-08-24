@@ -16,7 +16,9 @@ const createExercise = async (req, res) => {
       userId: req.params.id,
     });
 
-    await userModel.findById(req.params.id);
+    const user = await userModel.findById(req.params.id);
+    if (!user?._id) throw new Error(`A user with id '${req.params.id}' does not exist`);
+
     const savedExercise = await newExercise.save();
     
     res.status(200).json(savedExercise);
