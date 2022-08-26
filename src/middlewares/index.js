@@ -3,11 +3,9 @@ const userModel = require('../models/users');
 const { formatDate } = require('../utils');
 
 const verifyDate = (req, res, next) => {
-  const isDateValid = req.body.date && formatDate(new Date(req.body.date)) === req.body.date;
+  const isDateValid = !req.body.date || formatDate(new Date(req.body.date)) === req.body.date;
 
-  if (!req.body.date) {
-    res.status(400).json(`No date provided`);
-  } else if (!isDateValid) {
+  if (!isDateValid) {
     res.status(400).json(`This date does not exist: ${req.body.date}`);
   } else {
     next();
