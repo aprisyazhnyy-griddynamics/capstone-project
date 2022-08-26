@@ -1,3 +1,4 @@
+const { DB_ERROR_CODES } = require('../constants');
 const userModel = require('../models/users');
 
 const createUser = async (req, res) => {
@@ -7,7 +8,7 @@ const createUser = async (req, res) => {
     
     res.status(200).json(savedUser);
   } catch (err) {
-    if (err.code === 11000) {
+    if (err.code === DB_ERROR_CODES.RECORD_EXISTS) {
       res.status(400).json(err.message);
     } else {
       res.status(500).json(err.message);
